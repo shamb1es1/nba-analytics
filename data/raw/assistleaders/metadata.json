@@ -1,0 +1,12 @@
+{
+  "endpoint_module": "assistleaders",
+  "endpoint_class": "AssistLeaders",
+  "parameters": {
+    "season": "2022-23"
+  },
+  "request_url": "https://stats.nba.com/stats/assistleaders?LeagueID=00&PerMode=Totals&PlayerOrTeam=Team&Season=2022-23&SeasonType=Regular+Season",
+  "retrieved_at_utc": "2026-07-17T19:20:27.172607+00:00",
+  "datasets": [
+    "AssistLeaders"
+  ]
+}

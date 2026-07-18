@@ -1,2 +1,5 @@
-# Ignore environment folder
+#Virtual Python environment folder
 /.venv
+
+# Python cache files
+/__pycache__/

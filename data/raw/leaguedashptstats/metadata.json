@@ -1,0 +1,13 @@
+{
+  "endpoint_module": "leaguedashptstats",
+  "endpoint_class": "LeagueDashPtStats",
+  "parameters": {
+    "season": "2022-23",
+    "month": "1"
+  },
+  "request_url": "https://stats.nba.com/stats/leaguedashptstats?College=&Conference=&Country=&DateFrom=&DateTo=&Division=&DraftPick=&DraftYear=&GameScope=&Height=&LastNGames=0&LeagueID=00&Location=&Month=1&OpponentTeamID=0&Outcome=&PORound=&PerMode=Totals&PlayerExperience=&PlayerOrTeam=Team&PlayerPosition=&PtMeasureType=SpeedDistance&Season=2022-23&SeasonSegment=&SeasonType=Regular+Season&StarterBench=&TeamID=&VsConference=&VsDivision=&Weight=",
+  "retrieved_at_utc": "2026-07-17T19:42:07.212231+00:00",
+  "datasets": [
+    "LeagueDashPtStats"
+  ]
+}
