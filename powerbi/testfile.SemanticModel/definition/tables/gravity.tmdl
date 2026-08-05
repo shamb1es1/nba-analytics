@@ -1,0 +1,176 @@
+table gravity
+	lineageTag: c2eb73b4-19de-482a-a4dc-5a4427c535c9
+
+	measure 'Standard Deviation' =
+			
+			STDEVX.P(
+			    ALLSELECTED('gravity'[AVGGRAVITYSCORE]),
+			    'gravity'[AVGGRAVITYSCORE]
+			)
+		lineageTag: 1d6f9b8e-b91f-43b3-a19c-d957cf35d08e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'minus 1 std' =
+			
+			AVERAGE(gravity[AVGGRAVITYSCORE]) - STDEV.P(gravity[AVGGRAVITYSCORE])
+		lineageTag: 5b5ec750-ad2f-4a90-a1a6-909e42bf8e21
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PLAYERID
+		dataType: int64
+		formatString: 0
+		lineageTag: 1b021609-909b-4153-9a5b-fc22673ec4df
+		summarizeBy: count
+		sourceColumn: PLAYERID
+
+		annotation SummarizationSetBy = Automatic
+
+	column FIRSTNAME
+		dataType: string
+		lineageTag: 1803e4f3-f61b-43f2-be6d-d47df327db3b
+		summarizeBy: none
+		sourceColumn: FIRSTNAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column LASTNAME
+		dataType: string
+		lineageTag: 533833d1-145a-4d40-a365-fc65e4911211
+		summarizeBy: none
+		sourceColumn: LASTNAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column TEAMNAME
+		dataType: string
+		lineageTag: 5db7fc1b-8416-4362-867a-325bba21eb86
+		summarizeBy: none
+		sourceColumn: TEAMNAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column TEAMCITY
+		dataType: string
+		lineageTag: 103f7f6f-ebb6-41ec-9eeb-9cda95dfa03f
+		summarizeBy: none
+		sourceColumn: TEAMCITY
+
+		annotation SummarizationSetBy = Automatic
+
+	column FRAMES
+		dataType: int64
+		formatString: 0
+		lineageTag: 0c8d2dc6-a270-48dd-8cf2-d23113a72a17
+		summarizeBy: sum
+		sourceColumn: FRAMES
+
+		annotation SummarizationSetBy = Automatic
+
+	column AVGGRAVITYSCORE
+		dataType: double
+		lineageTag: c2cb96b6-4c90-46d7-9e2d-fc7fdc7e8d4c
+		summarizeBy: sum
+		sourceColumn: AVGGRAVITYSCORE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		annotation __PBI_SemanticLinks = [{"LinkTarget":{"TableName":"gravity","TableItemName":"AVGGRAVITYSCORE (bins)","ObjectType":4},"LinkType":"UsedInGroup"}]
+
+	column MINUTES
+		dataType: double
+		lineageTag: 0b1af307-e806-4d0d-b508-e08657bf1085
+		summarizeBy: sum
+		sourceColumn: MINUTES
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column special = ```
+			
+			IF(gravity[AVGGRAVITYSCORE] > PERCENTILE.INC(gravity[AVGGRAVITYSCORE], 0.95)
+			|| gravity[PTS] > PERCENTILE.INC(gravity[PTS], 0.95) || gravity[AVGGRAVITYSCORE] < PERCENTILE.INC(gravity[AVGGRAVITYSCORE], 0.01) 
+			|| gravity[PTS] < PERCENTILE.INC(gravity[PTS], 0.01), "special", "not")
+			```
+		lineageTag: cee94325-66d7-4224-ae4f-1d6fd7baa40e
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column name = gravity[FIRSTNAME] & " " & LEFT(gravity[LASTNAME], 1) & "."
+		lineageTag: d4126533-c2bc-4c67-8ae4-53625d6083f0
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'AVGGRAVITYSCORE (bins)' =
+			IF(
+				ISBLANK('gravity'[AVGGRAVITYSCORE]),
+				BLANK(),
+				IF(
+					'gravity'[AVGGRAVITYSCORE] >= 0,
+					ROUNDDOWN('gravity'[AVGGRAVITYSCORE], 0),
+					ROUNDUP('gravity'[AVGGRAVITYSCORE], 0)
+				)
+			)
+		lineageTag: 672ec4ed-1b9a-44df-b44b-6b531bd1ec93
+		summarizeBy: none
+
+		extendedProperty GroupingMetadata =
+				{
+				  "version": 0,
+				  "groupedColumns": [
+				    {
+				      "Column": {
+				        "Expression": {
+				          "SourceRef": {
+				            "Entity": "gravity"
+				          }
+				        },
+				        "Property": "AVGGRAVITYSCORE"
+				      }
+				    }
+				  ],
+				  "binningMetadata": {
+				    "binSize": {
+				      "value": 1.0,
+				      "unit": 0
+				    }
+				  }
+				}
+
+		annotation GroupingDesignState = {"Version":0,"Sources":[{"Name":"g","Entity":"gravity"}],"GroupedColumns":[{"Column":{"Expression":{"SourceRef":{"Source":"g"}},"Property":"AVGGRAVITYSCORE"}}],"BinItem":{"Expression":{"Floor":{"Expression":{"Column":{"Expression":{"SourceRef":{"Source":"g"}},"Property":"AVGGRAVITYSCORE"}},"Size":1.0}}}}
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PTS
+		dataType: double
+		lineageTag: 26555385-3915-4207-959b-9dc64387e872
+		summarizeBy: sum
+		sourceColumn: PTS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition gravity = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\juwri\Downloads\nba-analytics\data\raw\gravityleaders\dataset_1.csv"),[Delimiter=",", Columns=27, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"PLAYERID", Int64.Type}, {"FIRSTNAME", type text}, {"LASTNAME", type text}, {"TEAMID", Int64.Type}, {"TEAMABBREVIATION", type text}, {"TEAMNAME", type text}, {"TEAMCITY", type text}, {"FRAMES", Int64.Type}, {"GRAVITYSCORE", type number}, {"AVGGRAVITYSCORE", type number}, {"ONBALLPERIMETERFRAMES", Int64.Type}, {"ONBALLPERIMETERGRAVITYSCORE", type number}, {"AVGONBALLPERIMETERGRAVITYSCORE", type number}, {"OFFBALLPERIMETERFRAMES", Int64.Type}, {"OFFBALLPERIMETERGRAVITYSCORE", type number}, {"AVGOFFBALLPERIMETERGRAVITYSCORE", type number}, {"ONBALLINTERIORFRAMES", Int64.Type}, {"ONBALLINTERIORGRAVITYSCORE", type number}, {"AVGONBALLINTERIORGRAVITYSCORE", type number}, {"OFFBALLINTERIORFRAMES", Int64.Type}, {"OFFBALLINTERIORGRAVITYSCORE", type number}, {"AVGOFFBALLINTERIORGRAVITYSCORE", type number}, {"GAMESPLAYED", Int64.Type}, {"MINUTES", type number}, {"PTS", type number}, {"REB", type number}, {"AST", type number}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"TEAMID", "TEAMABBREVIATION", "GRAVITYSCORE", "ONBALLPERIMETERFRAMES", "ONBALLPERIMETERGRAVITYSCORE", "AST", "REB", "GAMESPLAYED", "AVGOFFBALLINTERIORGRAVITYSCORE", "OFFBALLINTERIORGRAVITYSCORE", "OFFBALLINTERIORFRAMES", "AVGONBALLINTERIORGRAVITYSCORE", "ONBALLINTERIORGRAVITYSCORE", "ONBALLINTERIORFRAMES", "AVGOFFBALLPERIMETERGRAVITYSCORE", "OFFBALLPERIMETERGRAVITYSCORE", "OFFBALLPERIMETERFRAMES", "AVGONBALLPERIMETERGRAVITYSCORE"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
