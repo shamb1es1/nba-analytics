@@ -4,6 +4,7 @@ idna==3.18
 nba_api==1.11.4
 numpy==2.4.6
 pandas==3.0.3
+pillow==12.3.0
 python-dateutil==2.9.0.post0
 requests==2.34.2
 six==1.17.0
