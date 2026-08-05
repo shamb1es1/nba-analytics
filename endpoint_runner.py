@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import headshots
 from nba_api.stats.endpoints._base import Endpoint
 from requests.exceptions import RequestException
 
@@ -101,6 +102,7 @@ def run_endpoint(
     timeout: int = 60,
     retries: int = 3,
     retry_delay: float = 3,
+    include_headshot_urls: bool = False,
 ) -> dict[str, Path]:
     endpoint_class = get_endpoint_class(module_name)
     validate_parameters(endpoint_class, parameters)
@@ -146,6 +148,8 @@ def run_endpoint(
 
     dataset_names = list(response.get_available_data())
     data_frames = response.get_data_frames()
+    headshot_url_datasets: list[str] = []
+    headshot_data_uri_datasets: list[str] = []
 
     for index, data_frame in enumerate(data_frames):
         dataset_name = (
@@ -153,6 +157,31 @@ def run_endpoint(
             if index < len(dataset_names)
             else f"dataset_{index + 1}"
         )
+
+        player_id_column = next(
+            (
+                column
+                for column in data_frame.columns
+                if re.sub(r"[^A-Z0-9]", "", str(column).upper())
+                == "PLAYERID"
+            ),
+            None,
+        )
+
+        if include_headshot_urls and player_id_column is not None:
+            player_ids = data_frame[player_id_column].dropna().unique()
+
+            print(
+                f"\nEmbedding {len(player_ids)} player headshots "
+                f"in {dataset_name}..."
+            )
+
+            headshots.add_headshot_attributes(
+                data_frame,
+                player_id_column,
+            )
+            headshot_url_datasets.append(dataset_name)
+            headshot_data_uri_datasets.append(dataset_name)
 
         filename = re.sub(
             r"(?<!^)(?=[A-Z])",
@@ -172,6 +201,9 @@ def run_endpoint(
         "request_url": response.get_request_url(),
         "retrieved_at_utc": datetime.now(timezone.utc).isoformat(),
         "datasets": dataset_names,
+        "include_headshot_urls": include_headshot_urls,
+        "headshot_url_datasets": headshot_url_datasets,
+        "headshot_data_uri_datasets": headshot_data_uri_datasets,
     }
 
     metadata_path = output_directory / "metadata.json"

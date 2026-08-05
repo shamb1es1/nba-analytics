@@ -10,6 +10,23 @@ from endpoint_runner import (
 )
 
 
+def ask_to_include_headshot_urls() -> bool:
+    """Ask whether exported player datasets should include headshot URLs."""
+
+    while True:
+        answer = input(
+            "\nInclude player headshot URLs? [y/N]: "
+        ).strip().lower()
+
+        if answer in {"", "n", "no"}:
+            return False
+
+        if answer in {"y", "yes"}:
+            return True
+
+        print("Please enter y or n.")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
 
@@ -70,7 +87,6 @@ def main() -> None:
                 parameters = ast.literal_eval(config_input)
 
     except (
-        json.JSONDecodeError,
         SyntaxError,
         ValueError,
         OSError,
@@ -82,11 +98,14 @@ def main() -> None:
         print("\nParameters must be provided as a dictionary.")
         return
 
+    include_headshot_urls = ask_to_include_headshot_urls()
+
     try:
         saved_files = run_endpoint(
             module_name=endpoint_name,
             parameters=parameters,
             output_directory=Path("data/raw") / endpoint_name,
+            include_headshot_urls=include_headshot_urls,
         )
     except Exception as error:
         print(f"\nRequest failed: {error}")

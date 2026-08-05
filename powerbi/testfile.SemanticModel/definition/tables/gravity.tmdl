@@ -159,16 +159,34 @@ table gravity
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
+	column HEADSHOT_URL
+		dataType: string
+		lineageTag: c81eff28-b450-4e77-980a-b8da30b16faa
+		dataCategory: ImageUrl
+		summarizeBy: none
+		sourceColumn: HEADSHOT_URL
+
+		annotation SummarizationSetBy = Automatic
+
+	column HEADSHOT_DATA_URI
+		dataType: string
+		lineageTag: 084e52fc-e545-45bb-99bf-edc8545e0295
+		summarizeBy: none
+		sourceColumn: HEADSHOT_DATA_URI
+
+		annotation SummarizationSetBy = Automatic
+
 	partition gravity = m
 		mode: import
 		source =
 				let
-				    Source = Csv.Document(File.Contents("C:\Users\juwri\Downloads\nba-analytics\data\raw\gravityleaders\dataset_1.csv"),[Delimiter=",", Columns=27, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    Source = Csv.Document(File.Contents("C:\Users\juwri\Downloads\nba-analytics\data\raw\gravityleaders\dataset_1.csv"),[Delimiter=",", Columns=29, Encoding=65001, QuoteStyle=QuoteStyle.None]),
 				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
 				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"PLAYERID", Int64.Type}, {"FIRSTNAME", type text}, {"LASTNAME", type text}, {"TEAMID", Int64.Type}, {"TEAMABBREVIATION", type text}, {"TEAMNAME", type text}, {"TEAMCITY", type text}, {"FRAMES", Int64.Type}, {"GRAVITYSCORE", type number}, {"AVGGRAVITYSCORE", type number}, {"ONBALLPERIMETERFRAMES", Int64.Type}, {"ONBALLPERIMETERGRAVITYSCORE", type number}, {"AVGONBALLPERIMETERGRAVITYSCORE", type number}, {"OFFBALLPERIMETERFRAMES", Int64.Type}, {"OFFBALLPERIMETERGRAVITYSCORE", type number}, {"AVGOFFBALLPERIMETERGRAVITYSCORE", type number}, {"ONBALLINTERIORFRAMES", Int64.Type}, {"ONBALLINTERIORGRAVITYSCORE", type number}, {"AVGONBALLINTERIORGRAVITYSCORE", type number}, {"OFFBALLINTERIORFRAMES", Int64.Type}, {"OFFBALLINTERIORGRAVITYSCORE", type number}, {"AVGOFFBALLINTERIORGRAVITYSCORE", type number}, {"GAMESPLAYED", Int64.Type}, {"MINUTES", type number}, {"PTS", type number}, {"REB", type number}, {"AST", type number}}),
-				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"TEAMID", "TEAMABBREVIATION", "GRAVITYSCORE", "ONBALLPERIMETERFRAMES", "ONBALLPERIMETERGRAVITYSCORE", "AST", "REB", "GAMESPLAYED", "AVGOFFBALLINTERIORGRAVITYSCORE", "OFFBALLINTERIORGRAVITYSCORE", "OFFBALLINTERIORFRAMES", "AVGONBALLINTERIORGRAVITYSCORE", "ONBALLINTERIORGRAVITYSCORE", "ONBALLINTERIORFRAMES", "AVGOFFBALLPERIMETERGRAVITYSCORE", "OFFBALLPERIMETERGRAVITYSCORE", "OFFBALLPERIMETERFRAMES", "AVGONBALLPERIMETERGRAVITYSCORE"})
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"TEAMID", "TEAMABBREVIATION", "GRAVITYSCORE", "ONBALLPERIMETERFRAMES", "ONBALLPERIMETERGRAVITYSCORE", "AST", "REB", "GAMESPLAYED", "AVGOFFBALLINTERIORGRAVITYSCORE", "OFFBALLINTERIORGRAVITYSCORE", "OFFBALLINTERIORFRAMES", "AVGONBALLINTERIORGRAVITYSCORE", "ONBALLINTERIORGRAVITYSCORE", "ONBALLINTERIORFRAMES", "AVGOFFBALLPERIMETERGRAVITYSCORE", "OFFBALLPERIMETERGRAVITYSCORE", "OFFBALLPERIMETERFRAMES", "AVGONBALLPERIMETERGRAVITYSCORE"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Removed Columns",{{"HEADSHOT_URL", type text}})
 				in
-				    #"Removed Columns"
+				    #"Changed Type1"
 
 	annotation PBI_NavigationStepName = Navigation
 

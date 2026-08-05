@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
-  "name": "49e3441f351e12d6b121",
+  "name": "0e464630744828395958",
   "position": {
     "x": 0,
     "y": 0,
@@ -70,20 +70,6 @@
               },
               "queryRef": "Sum(gravity.PTS)",
               "nativeQueryRef": "PTS"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "gravity"
-                    }
-                  },
-                  "Property": "HEADSHOT_DATA_URI"
-                }
-              },
-              "queryRef": "gravity.HEADSHOT_DATA_URI",
-              "nativeQueryRef": "HEADSHOT_DATA_URI"
             }
           ]
         }
@@ -121,7 +107,7 @@
             "jsonSpec": {
               "expr": {
                 "Literal": {
-                  "Value": "'{\r\n  \"data\": {\r\n    \"name\": \"dataset\"\r\n  },\r\n  \"title\": {\r\n    \"text\": \"Average Gravity by PPG\",\r\n    \"fontSize\": 75,\r\n    \"font\": \"consolas\"\r\n  },\r\n  \"encoding\": {\r\n    \"y\": {\r\n      \"field\": \"AVGGRAVITYSCORE\",\r\n      \"type\": \"quantitative\",\r\n      \"title\": \"Average Gravity Score\",\r\n      \"axis\": {\r\n        \"titleFont\": \"consolas\",\r\n        \"labelFont\": \"consolas\",\r\n        \"labelFontSize\": 20,\r\n        \"titleFontSize\": 40,\r\n        \"titlePadding\": 12,\r\n        \"labelPadding\": 6\r\n      }\r\n    },\r\n    \"x\": {\r\n      \"field\": \"PTS\",\r\n      \"type\": \"quantitative\",\r\n      \"title\": \"Points Per Game\",\r\n      \"axis\": {\r\n        \"titleFont\": \"consolas\",\r\n        \"labelFont\": \"consolas\",\r\n        \"labelFontSize\": 20,\r\n        \"titleFontSize\": 40,\r\n        \"titlePadding\": 12,\r\n        \"labelPadding\": 6\r\n      }\r\n    }\r\n  },\r\n  \"layer\": [\r\n    {\r\n      \"mark\": {\r\n        \"type\": \"image\",\r\n        \"width\": 55,\r\n        \"height\": 40,\r\n        \"aspect\": true,\r\n        \"align\": \"center\",\r\n        \"baseline\": \"middle\"\r\n      },\r\n      \"encoding\": {\r\n        \"url\": {\r\n          \"field\": \"HEADSHOT_DATA_URI\",\r\n          \"type\": \"nominal\"\r\n        },\r\n        \"tooltip\": [\r\n          {\r\n            \"field\": \"name\",\r\n            \"type\": \"nominal\",\r\n            \"title\": \"Player\"\r\n          },\r\n          {\r\n            \"field\": \"PTS\",\r\n            \"type\": \"quantitative\",\r\n            \"title\": \"Points Per Game\"\r\n          },\r\n          {\r\n            \"field\": \"AVGGRAVITYSCORE\",\r\n            \"type\": \"quantitative\",\r\n            \"title\": \"Average Gravity\"\r\n          }\r\n        ]\r\n      }\r\n    }\r\n  ]\r\n}'"
+                  "Value": "'{\n  \"data\": {\n    \"name\": \"dataset\"\n  },\n  \"title\": {\n    \"text\": \"Average Gravity by PPG\",\n    \"fontSize\": 75,\n    \"font\": \"consolas\"\n  },\n  \"encoding\": {\n    \"y\": {\n      \"field\": \"AVGGRAVITYSCORE\",\n      \"type\": \"quantitative\",\n      \"title\": \"Average Gravity Score\",\n      \"axis\": {\n        \"titleFont\": \"consolas\",\n        \"labelFont\": \"consolas\",\n        \"labelFontStyle\": \"bold\",\n        \"labelFontSize\": 20,\n        \"titleFontSize\": 40,\n        \"titlePadding\": 12,\n        \"labelPadding\": 6\n      }\n    },\n    \"x\": {\n      \"field\": \"PTS\",\n      \"type\": \"quantitative\",\n      \"title\": \"Points Per Game\",\n      \"axis\": {\n        \"titleFont\": \"consolas\",\n        \"labelFont\": \"consolas\",\n        \"labelFontSize\": 20,\n        \"titleFontSize\": 40,\n        \"titlePadding\": 12,\n        \"labelPadding\": 6\n      }\n    }\n  },\n  \"layer\": [\n    {\n      \"mark\": {\n        \"type\": \"circle\",\n        \"size\": 100\n      },\n      \"encoding\": {\n        \"tooltip\": [\n          {\n            \"field\": \"name\",\n            \"type\": \"nominal\",\n            \"title\": \"Player\"\n          },\n          {\n            \"field\": \"PTS\",\n            \"type\": \"quantitative\",\n            \"title\": \"Points Per Game\"\n          },\n          {\n            \"field\": \"AVGGRAVITYSCORE\",\n            \"type\": \"quantitative\",\n            \"title\": \"Average Gravity\"\n          }\n        ]\n      }\n    },\n    {\n      \"transform\": [\n        {\n          \"filter\": \"datum.special === ''special''\"\n        }\n      ],\n      \"mark\": {\n        \"type\": \"circle\",\n        \"size\": 300\n      }\n    },\n    {\n      \"transform\": [\n        {\n          \"filter\": \"datum.special === ''special''\"\n        }\n      ],\n      \"mark\": {\n        \"type\": \"text\",\n        \"font\": \"consolas\",\n        \"fontWeight\": \"bold\",\n        \"align\": \"left\",\n        \"baseline\": \"bottom\",\n        \"dx\": 16,\n        \"dy\": -10,\n        \"fontSize\": 18\n      },\n      \"encoding\": {\n        \"text\": {\n          \"field\": \"name\",\n          \"type\": \"nominal\"\n        }\n      }\n    }\n  ]\n}'"
                 }
               }
             },
@@ -219,79 +205,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "a93e6aa55d4705ace11d",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gravity"
-              }
-            },
-            "Property": "special"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "e1bd4f1dd9a33631bee4",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gravity"
-              }
-            },
-            "Property": "AVGGRAVITYSCORE"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "2a87a213a4a6c90706dd",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gravity"
-              }
-            },
-            "Property": "name"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "45cc0c15db9d39e85e68",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gravity"
-              }
-            },
-            "Property": "PTS"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "de841eb67d2dd7d80837",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "gravity"
-              }
-            },
-            "Property": "HEADSHOT_DATA_URI"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }
