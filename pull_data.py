@@ -100,11 +100,15 @@ def main() -> None:
 
     include_headshot_urls = ask_to_include_headshot_urls()
 
+    parameters_str = "".join(f"[{value}]" for value in parameters.values())
+
+    file_name = f"{endpoint_name}{parameters_str}"
+
     try:
         saved_files = run_endpoint(
             module_name=endpoint_name,
             parameters=parameters,
-            output_directory=Path("data/raw") / endpoint_name,
+            output_directory=Path("data/raw") / file_name,
             include_headshot_urls=include_headshot_urls,
         )
     except Exception as error:
