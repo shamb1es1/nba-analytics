@@ -1,0 +1,78 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "6b2b08f001a468908060",
+  "position": {
+    "x": 15.592149785698155,
+    "y": 50.241371531694114,
+    "z": 4000,
+    "height": 214.8251748251748,
+    "width": 258.13670200766973
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Perimeter on-ball gravity",
+                    "textStyle": {
+                      "fontFamily": "Consolas",
+                      "fontStyle": "italic",
+                      "fontSize": "16pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Perimeter off-ball gravity",
+                    "textStyle": {
+                      "fontFamily": "Consolas",
+                      "fontStyle": "italic",
+                      "fontSize": "16pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Interior on-ball gravity",
+                    "textStyle": {
+                      "fontFamily": "Consolas",
+                      "fontStyle": "italic",
+                      "fontSize": "16pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Interior off-ball gravity",
+                    "textStyle": {
+                      "fontFamily": "Consolas",
+                      "fontStyle": "italic",
+                      "fontSize": "16pt"
+                    }
+                  }
+                ],
+                "listType": "bullet"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "1e8424c06942c3409680"
+}
